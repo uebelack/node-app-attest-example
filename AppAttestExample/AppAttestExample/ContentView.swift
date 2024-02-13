@@ -16,15 +16,15 @@ struct ContentView: View {
             VStack {
                 Form {
                     TextField("subject", text: $subject)
-                    TextField("message", text: $message,  axis: .vertical)
-                        .lineLimit(10...10)
+                    TextField("message", text: $message, axis: .vertical)
+                        .lineLimit(10 ... 10)
                 }
                 Button("Send") {
                     Task {
                         try await ApiClient.shared.sendMessage(subject: subject, message: message)
                     }
                 }.buttonStyle(.borderedProminent)
-                
+
             }.background(Color(uiColor: .systemGray6))
                 .navigationTitle("Send Message")
         }

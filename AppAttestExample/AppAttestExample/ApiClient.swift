@@ -37,52 +37,58 @@ class ApiClient {
             var request = URLRequest(url: url("/attest/verify"))
             request.httpMethod = "POST"
             request.httpBody = try JSONEncoder().encode(
-             [
+                [
                     "keyId": keyId,
                     "challenge": challenge,
-                    "attestation": attestation.base64EncodedString()
-             ]
+                    "attestation": attestation.base64EncodedString(),
+                ]
             )
             request.setValue(
                 "application/json",
                 forHTTPHeaderField: "Content-Type"
             )
-            
+
             let (_, response) = try await URLSession.shared.data(for: request)
-            
+
             if let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode == 204 {
                     UserDefaults.standard.set(keyId, forKey: "AttestKeyId")
                     return keyId
                 }
             }
-            
+
             throw ApiClientError.attestVerificationFailed
         }
         throw ApiClientError.attestNotSupported
     }
-    
-    func createAssertion(_ payload: Data) async throws -> Data {
+
+    func createAssertion(_ payload: Data) async throws -> String {
         var keyId = UserDefaults.standard.string(forKey: "AttestKeyId")
-        
+
         if keyId == nil {
             keyId = try await attestKey()
         }
-        
+
         let hash = Data(SHA256.hash(data: payload))
         let service = DCAppAttestService.shared
-        return try await service.generateAssertion(keyId!, clientDataHash: hash)
+        let assertion = try await service.generateAssertion(keyId!, clientDataHash: hash)
+
+        return try JSONEncoder().encode([
+            "keyId": keyId,
+            "assertion": assertion.base64EncodedString(),
+        ]).base64EncodedString()
     }
 
     func sendMessage(subject: String, message: String) async throws {
-        let payload = try JSONEncoder().encode(
-            [
-                   "subject": subject,
-                   "message": message
-            ]
-           )
+        let challenge = try await attestChallenge()
+        let payload = try JSONEncoder().encode([
+            "subject": subject,
+            "message": message,
+            "challenge": challenge,
+        ])
+
         let assertion = try await createAssertion(payload)
-        
+
         var request = URLRequest(url: url("/send-message"))
         request.httpMethod = "POST"
         request.httpBody = payload
@@ -90,14 +96,14 @@ class ApiClient {
             "application/json",
             forHTTPHeaderField: "Content-Type"
         )
-        
+
         request.setValue(
-            assertion.base64EncodedString(),
-            forHTTPHeaderField: "assertion"
+            assertion,
+            forHTTPHeaderField: "authentication"
         )
-        
+
         let (_, response) = try await URLSession.shared.data(for: request)
-        
+
         if let httpResponse = response as? HTTPURLResponse {
             if httpResponse.statusCode == 401 {
                 UserDefaults.standard.removeObject(forKey: "AttestKeyId")
@@ -110,4 +116,3 @@ class ApiClient {
         return URL(string: "\(endpoint)\(target)")!
     }
 }
-

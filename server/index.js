@@ -1,7 +1,7 @@
 import express from 'express';
 import { v4 as uuid } from 'uuid';
 import bodyParser from 'body-parser';
-import { verifyAttestation } from 'node-app-attest';
+import { verifyAttestation, verifyAssertion } from 'node-app-attest';
 import tratschtante from 'tratschtante';
 import db from './db.js';
 
@@ -26,12 +26,10 @@ app.post(`${API_PREFIX}/attest/verify`, (req, res) => {
   try {
     log.debug(`verify was requested: ${JSON.stringify(req.body, null, 2)}`);
 
-    // verify the challenge
     if (!db.findChallenge(req.body.challenge)) {
       throw new Error('Invalid challenge');
     }
 
-    // verify the attestation
     const result = verifyAttestation({
       attestation: Buffer.from(req.body.attestation, 'base64'),
       challenge: req.body.challenge,
@@ -43,9 +41,7 @@ app.post(`${API_PREFIX}/attest/verify`, (req, res) => {
 
     log.debug(`attestation result: ${JSON.stringify(result, null, 2)}`);
 
-    // store the client certificate
-    // IMPORTANT: store the client certificate in a database! this is only for testing purposes
-    // CLIENT_CERTIFICATES[result.keyId] = result.value;
+    db.storeAttestation({ keyId: req.body.keyId, publicKey: result.publicKey, signCount: 0 });
 
     res.sendStatus(204);
     db.deleteChallenge(req.body.challenge);
@@ -57,13 +53,44 @@ app.post(`${API_PREFIX}/attest/verify`, (req, res) => {
 
 app.post(`${API_PREFIX}/send-message`, (req, res) => {
   try {
-    const { assertion, hash, body } = req.headers;
-    log.debug(`assertion: ${assertion}`);
-    log.debug(`hash: ${hash}`);
-    log.debug(`body: ${body}`);
-    log.debug(`send-message: ${JSON.stringify(req.body)}`);
+    const { authentication } = req.headers;
 
-    res.sendStatus(401);
+    if (!authentication) {
+      throw new Error('No authentication header');
+    }
+
+    const { keyId, assertion } = JSON.parse(Buffer.from(authentication, 'base64').toString());
+
+    if (keyId === undefined || assertion === undefined) {
+      throw new Error('Invalid authentication');
+    }
+
+    if (!db.findChallenge(req.body.challenge)) {
+      throw new Error('Invalid challenge');
+    }
+
+    db.deleteChallenge(req.body.challenge);
+
+    const attestation = db.findAttestation(keyId);
+
+    if (!attestation) {
+      throw new Error('No attestation found');
+    }
+
+    const result = verifyAssertion({
+      assertion: Buffer.from(assertion, 'base64'),
+      payload: JSON.stringify(req.body),
+      publicKey: attestation.publicKey,
+      bundleIdentifier: BUNDLE_IDENTIFIER,
+      teamIdentifier: TEAM_IDENTIFIER,
+      signCount: attestation.signCount,
+    });
+
+    db.storeAttestation({ keyId, signCount: result.signCount });
+
+    log.debug(`Received message: ${JSON.stringify(req.body)}`);
+
+    res.sendStatus(204);
   } catch (error) {
     log.error(error);
     res.status(401).send({ error: 'Unauthorized' });

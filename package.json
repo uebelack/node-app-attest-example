@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Example implementation of apples App Attest protocol.",
   "main": "index.js",
-  "repository": "https://github.com/uebelack/app-attest-example",
-  "author": "David Uebelacker <david@uebelacker.ch>",
+  "repository": "https://github.com/uebelack/node-app-attest-example",
+  "author": "David Übelacker",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -14,7 +14,7 @@
   "dependencies": {
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
-    "node-app-attest": "^0.0.1",
+    "node-app-attest": "^0.0.3",
     "tratschtante": "^0.0.5",
     "uuid": "^9.0.1"
   },
