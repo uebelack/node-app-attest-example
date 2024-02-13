@@ -8,12 +8,12 @@
 <div align="center">
   <h1 align="center">node-app-attest-example</h1>
   <p align="center">
-    App and server example for apples App Attest protocol.
+    App and server example of Apple's App Attest protocol.
   </p>
 </div>
 
 ## About
-This repository shows an example implementation of Apples App Attest protocol, using https://npmjs.com/package/node-app-attest.
+This repository shows an example implementation of Apple's App Attest protocol, using https://npmjs.com/package/node-app-attest.
 
 ## License
 
