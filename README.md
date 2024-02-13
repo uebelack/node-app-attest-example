@@ -17,11 +17,11 @@ This repository shows an example implementation of Apple's App Attest protocol, 
 
 ## License
 
-MIT License. See `LICENSE.txt` for more information.
+MIT License. See `LICENSE` for more information.
 
 [build-shield]: https://img.shields.io/github/actions/workflow/status/uebelack/node-app-attest-example/ci.yml?branch=main&style=for-the-badge
 [build-url]: https://github.com/uebelack/node-app-attest-example/actions/workflows/ci.yml
 [language-shield]: https://img.shields.io/github/languages/top/uebelack/node-app-attest-example.svg?style=for-the-badge
 [language-url]: https://github.com/uebelack/node-app-attest-example
 [license-shield]: https://img.shields.io/github/license/uebelack/node-app-attest-example.svg?style=for-the-badge
-[license-url]: https://github.com/uebelack/node-app-attest-example/blob/master/LICENSE.txt
+[license-url]: https://github.com/uebelack/node-app-attest-example/blob/master/LICENSE
