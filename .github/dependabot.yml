@@ -1,6 +1,10 @@
 version: 2
 updates:
-  - package-ecosystem: yarn
-    directory: /
+  - package-ecosystem: npm
+    directory: /javascript
+    schedule:
+      interval: weekly
+  - package-ecosystem: npm
+    directory: /typescript
     schedule:
       interval: weekly

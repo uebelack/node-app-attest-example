@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  unit-tests:
+  lint-javascript-example:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -23,6 +23,27 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Install Dependencies
+        working-directory: ./javascript
         run: yarn install
       - name: Lint
+        working-directory: ./javascript
+        run: yarn lint
+  lint-typescript-example:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node:
+          - 18
+          - 20
+          - 21
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install Dependencies
+        working-directory: ./typescript
+        run: yarn install
+      - name: Lint
+        working-directory: ./typescript
         run: yarn lint

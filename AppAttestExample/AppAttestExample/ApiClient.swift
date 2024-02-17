@@ -20,7 +20,7 @@ class ApiClient {
 
     private var endpoint = "http://192.168.222.71:3000/v1"
 
-    func attestChallenge() async throws -> String {
+    func retrieveChallenge() async throws -> String {
         let (data, _) = try await URLSession.shared.data(from: url("/attest/challenge"))
         let json = try JSONDecoder().decode([String: String].self, from: data)
         return json["challenge"]!
@@ -29,7 +29,7 @@ class ApiClient {
     func attestKey() async throws -> String {
         let service = DCAppAttestService.shared
         if service.isSupported {
-            let challenge = try await attestChallenge()
+            let challenge = try await retrieveChallenge()
             let keyId = try await service.generateKey()
             let clientDataHash = Data(SHA256.hash(data: challenge.data(using: .utf8)!))
             let attestation = try await service.attestKey(keyId, clientDataHash: clientDataHash)
@@ -80,7 +80,7 @@ class ApiClient {
     }
 
     func sendMessage(subject: String, message: String) async throws {
-        let challenge = try await attestChallenge()
+        let challenge = try await retrieveChallenge()
         let payload = try JSONEncoder().encode([
             "subject": subject,
             "message": message,
