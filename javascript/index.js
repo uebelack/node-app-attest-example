@@ -41,7 +41,9 @@ app.post(`${API_PREFIX}/attest/verify`, (req, res) => {
 
     log.debug(`attestation result: ${JSON.stringify(result, null, 2)}`);
 
-    db.storeAttestation({ keyId: req.body.keyId, publicKey: result.publicKey, signCount: 0 });
+    db.storeAttestation({
+      keyId: req.body.keyId, publicKey: result.publicKey, receipt: result.receipt, signCount: 0,
+    });
 
     res.sendStatus(204);
     db.deleteChallenge(req.body.challenge);
