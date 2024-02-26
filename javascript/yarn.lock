@@ -1224,10 +1224,10 @@ negotiator@0.6.3:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.3.tgz#58e323a72fedc0d6f9cd4d31fe49f51479590ccd"
   integrity sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==
 
-node-app-attest@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/node-app-attest/-/node-app-attest-0.0.5.tgz#32944d40df225adb5c02115c0f4df812870c2276"
-  integrity sha512-RCjHRGDc+TV6+ksExkr33HhqhL4Q2htG5ZudjTCcTa3Yn8hSnDCmdFMt9NpOmJAIlWwtjEzm6I6NxDLJQQoWQw==
+node-app-attest@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/node-app-attest/-/node-app-attest-0.0.6.tgz#1f2878dc57ac3bcba47ffac60805c7f0f9233518"
+  integrity sha512-NcI+nJGBX2D6HXHMgRSsW/jvj8c+Ay2Fsc2LP/h91lSC8+mvG6YQOkE085+pGTYo7qVAuW40XuViC4/XHYSrRg==
   dependencies:
     asn1js "^3.0.5"
     cbor "^9.0.2"
