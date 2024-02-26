@@ -2396,10 +2396,10 @@ toidentifier@1.0.1:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
 
-tratschtante@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/tratschtante/-/tratschtante-0.0.6.tgz#a06add6da0415c46fb1999a94017d4ad5a1852d9"
-  integrity sha512-jAjWuKqp215GIc52ZVfUUHSeMy3s+e850wtpFaWgdYnJktwyU8QRZp3uArPgAy6Hncvy1JbtTFQ7kQBYZresPQ==
+tratschtante@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/tratschtante/-/tratschtante-0.0.7.tgz#bc8219fb93e0298d017e8d4988166f5caf2d890b"
+  integrity sha512-NPX5CoD/BociAFYoRK9lbtMyFBZYFP9TgIsUQ5XgEiB21b5rCMB4Mu9eSwQse13Q6x42x+7DMcWlkkXkQY37QQ==
 
 ts-api-utils@^1.0.1:
   version "1.2.1"
