@@ -12,7 +12,7 @@ const port = 3000;
 
 const API_PREFIX = '/v1';
 
-const BUNDLE_IDENTIFIER = 'io.uebelacker.AppAttestExample';
+const BUNDLE_IDENTIFIER = 'org.codecowboys.snailmail';
 const TEAM_IDENTIFIER = 'V8H6LQ9448';
 
 app.get(`${API_PREFIX}/attest/challenge`, (req, res) => {
@@ -42,7 +42,10 @@ app.post(`${API_PREFIX}/attest/verify`, (req, res) => {
     log.debug(`attestation result: ${JSON.stringify(result, null, 2)}`);
 
     db.storeAttestation({
-      keyId: req.body.keyId, publicKey: result.publicKey, receipt: result.receipt, signCount: 0,
+      keyId: req.body.keyId,
+      publicKey: result.publicKey,
+      receipt: result.receipt,
+      signCount: 0,
     });
 
     res.sendStatus(204);
@@ -53,7 +56,7 @@ app.post(`${API_PREFIX}/attest/verify`, (req, res) => {
   }
 });
 
-app.post(`${API_PREFIX}/send-message`, (req, res) => {
+app.post(`${API_PREFIX}/hello`, (req, res) => {
   try {
     const { authentication } = req.headers;
 
@@ -90,6 +93,8 @@ app.post(`${API_PREFIX}/send-message`, (req, res) => {
 
     db.storeAttestation({ keyId, signCount: result.signCount });
 
+    log.debug(authentication);
+    log.debug(attestation.publicKey);
     log.debug(`Received message: ${JSON.stringify(req.body)}`);
 
     res.sendStatus(204);
