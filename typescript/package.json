@@ -31,6 +31,6 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-typescript-sort-keys": "^3.3.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   }
 }
