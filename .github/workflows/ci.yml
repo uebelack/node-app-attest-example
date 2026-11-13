@@ -1,49 +1,31 @@
 name: CI
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  lint-javascript-example:
+  ci:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        node:
-          - 20
-          - 22
-          - 24
+        node: [20, 22, 24]
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node }}
-      - name: Install Dependencies
-        working-directory: ./javascript
-        run: yarn install
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
       - name: Lint
-        working-directory: ./javascript
-        run: yarn lint
-  lint-typescript-example:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node:
-          - 20
-          - 22
-          - 24
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
-      - name: Install Dependencies
-        working-directory: ./typescript
-        run: yarn install
-      - name: Lint
-        working-directory: ./typescript
-        run: yarn lint
+        run: pnpm run lint
