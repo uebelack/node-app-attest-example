@@ -15,12 +15,8 @@ const db = {
   deleteChallenge: (challenge: string): void => {
     delete CHALLANGES[challenge];
   },
-  storeAttestation: (attestation: Attestation): void => {
-    if (ATTESTATIONS[attestation.keyId]) {
-      ATTESTATIONS[attestation.keyId] = { ...ATTESTATIONS[attestation.keyId], ...attestation };
-    } else {
-      ATTESTATIONS[attestation.keyId] = attestation;
-    }
+  storeAttestation: (attestation: Pick<Attestation, 'keyId'> & Partial<Attestation>): void => {
+    ATTESTATIONS[attestation.keyId] = { ...ATTESTATIONS[attestation.keyId], ...attestation } as Attestation;
   },
   findAttestation: (keyId: string): Attestation | undefined => ATTESTATIONS[keyId],
 };

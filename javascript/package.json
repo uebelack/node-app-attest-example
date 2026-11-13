@@ -11,8 +11,8 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "express": "^5.1.0",
-    "node-app-attest": "^0.0.8",
-    "tratschtante": "^0.0.7"
+    "express": "^5.3.0",
+    "node-app-attest": "^2.2.0",
+    "tratschtante": "^2.0.0"
   }
 }

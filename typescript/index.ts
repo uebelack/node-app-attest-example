@@ -4,12 +4,6 @@ import { verifyAttestation, verifyAssertion } from 'node-app-attest';
 import tratschtante from 'tratschtante';
 import db from './db.ts';
 
-interface Attestation {
-  keyId: string;
-  publicKey: string;
-  signCount: number;
-}
-
 interface AttestationRequest {
   attestation: string;
   challenge: string;
@@ -74,7 +68,7 @@ app.post(`${API_PREFIX}/attest/verify`, (req: Request, res: Response) => {
 
     log.debug(`attestation result: ${JSON.stringify(result, null, 2)}`);
 
-    db.storeAttestation({ keyId: payload.keyId, publicKey: result.publicKey as string, signCount: 0 } as Attestation);
+    db.storeAttestation({ keyId: payload.keyId, publicKey: result.publicKey, signCount: 0 });
 
     res.sendStatus(204);
     db.deleteChallenge(payload.challenge);
@@ -121,7 +115,7 @@ app.post(`${API_PREFIX}/send-message`, (req: Request, res: Response) => {
       signCount: attestation.signCount,
     });
 
-    db.storeAttestation({ keyId, signCount: result.signCount as number } as Attestation);
+    db.storeAttestation({ keyId, signCount: result.signCount });
 
     log.debug(`Received message: ${JSON.stringify(req.body)}`);
 
