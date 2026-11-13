@@ -7,12 +7,19 @@ import db from './db.js';
 
 const log = tratschtante({ level: 'debug' });
 const app = express();
-app.use(bodyParser.json());
+// keep the raw body, the assertion signs the exact bytes the app sent
+app.use(
+  bodyParser.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf;
+    },
+  }),
+);
 const port = 3000;
 
 const API_PREFIX = '/v1';
 
-const BUNDLE_IDENTIFIER = 'org.codecowboys.snailmail';
+const BUNDLE_IDENTIFIER = 'io.uebelacker.AppAttestExample';
 const TEAM_IDENTIFIER = 'V8H6LQ9448';
 
 app.get(`${API_PREFIX}/attest/challenge`, (req, res) => {
@@ -56,7 +63,7 @@ app.post(`${API_PREFIX}/attest/verify`, (req, res) => {
   }
 });
 
-app.post(`${API_PREFIX}/hello`, (req, res) => {
+app.post(`${API_PREFIX}/send-message`, (req, res) => {
   try {
     const { authentication } = req.headers;
 
@@ -84,7 +91,7 @@ app.post(`${API_PREFIX}/hello`, (req, res) => {
 
     const result = verifyAssertion({
       assertion: Buffer.from(assertion, 'base64'),
-      payload: JSON.stringify(req.body),
+      payload: req.rawBody,
       publicKey: attestation.publicKey,
       bundleIdentifier: BUNDLE_IDENTIFIER,
       teamIdentifier: TEAM_IDENTIFIER,
