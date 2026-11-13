@@ -13,6 +13,7 @@
 </div>
 
 ## About
+
 This repository shows an example implementation of Apple's App Attest protocol, using https://npmjs.com/package/node-app-attest.
 
 ## License
