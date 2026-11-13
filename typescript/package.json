@@ -1,10 +1,7 @@
 {
-  "name": "node-app-attest-example",
-  "version": "1.0.0",
-  "description": "Example implementation of apples App Attest protocol.",
-  "license": "MIT",
-  "author": "David Übelacker",
-  "repository": "https://github.com/uebelack/node-app-attest-example",
+  "name": "node-app-attest-example-typescript",
+  "private": true,
+  "description": "App Attest example server (typescript)",
   "type": "module",
   "main": "index.ts",
   "scripts": {
