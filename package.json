@@ -1,0 +1,27 @@
+{
+  "name": "node-app-attest-example",
+  "private": true,
+  "description": "Example implementation of Apple's App Attest protocol.",
+  "license": "MIT",
+  "author": "David Übelacker",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uebelack/node-app-attest-example.git"
+  },
+  "type": "module",
+  "scripts": {
+    "lint:check": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format:check": "oxfmt --check .",
+    "format:write": "oxfmt .",
+    "typecheck": "pnpm -r run typecheck"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.78.0",
+    "oxlint": "^1.93.0"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "pnpm@12.18.0"
+}

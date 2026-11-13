@@ -1,36 +1,21 @@
 {
-  "name": "node-app-attest-example",
-  "version": "1.0.0",
-  "description": "Example implementation of apples App Attest protocol.",
-  "main": "index.js",
-  "repository": "https://github.com/uebelack/node-app-attest-example",
-  "author": "David Übelacker",
-  "license": "MIT",
+  "name": "node-app-attest-example-typescript",
+  "private": true,
+  "description": "App Attest example server (typescript)",
   "type": "module",
+  "main": "index.ts",
   "scripts": {
-    "start": "node --loader ts-node/esm index.ts",
-    "lint": "eslint ."
+    "start": "node index.ts",
+    "typecheck": "tsc"
   },
   "dependencies": {
-    "@types/uuid": "^10.0.0",
-    "body-parser": "^2.2.0",
-    "eslint-config-airbnb-typescript": "^18.0.0",
-    "eslint-config-airbnb-typescript-base": "^6.0.1",
-    "express": "^5.1.0",
-    "node-app-attest": "^0.0.8",
-    "tratschtante": "^0.0.7",
-    "uuid": "^11.1.0"
+    "express": "^5.3.0",
+    "node-app-attest": "^2.2.0",
+    "tratschtante": "^2.0.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.3",
-    "@typescript-eslint/eslint-plugin": "^8.41.0",
-    "@typescript-eslint/parser": "^8.41.0",
-    "eslint": "^9.34.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-typescript-sort-keys": "^3.3.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.2"
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.19.2",
+    "typescript": "^7.0.2"
   }
 }

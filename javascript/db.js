@@ -1,4 +1,4 @@
-const CHALLANGES = [];
+const CHALLANGES = {};
 const ATTESTATIONS = {};
 const db = {
   findChallenge: (challenge) => CHALLANGES[challenge],

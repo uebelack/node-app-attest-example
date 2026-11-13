@@ -1,15 +1,8 @@
-import bodyParser from 'body-parser';
-import express, { Request, Response } from 'express';
+import { randomUUID } from 'node:crypto';
+import express, { type Request, type Response } from 'express';
 import { verifyAttestation, verifyAssertion } from 'node-app-attest';
 import tratschtante from 'tratschtante';
-import { v4 as uuid } from 'uuid';
-import db from './db.js';
-
-interface Attestation {
-  keyId: string;
-  publicKey: string;
-  signCount: number;
-}
+import db from './db.ts';
 
 interface AttestationRequest {
   attestation: string;
@@ -25,12 +18,21 @@ interface Authentication {
 interface SendMessageRequest {
   challenge: string;
   message: string;
-  title: string;
+  subject: string;
 }
+
+type RawBodyRequest = Request & { rawBody: Buffer };
 
 const log = tratschtante({ level: 'debug' });
 const app = express();
-app.use(bodyParser.json());
+// keep the raw body, the assertion signs the exact bytes the app sent
+app.use(
+  express.json({
+    verify: (req, _res, buf) => {
+      (req as RawBodyRequest).rawBody = buf;
+    },
+  }),
+);
 const port = 3000;
 
 const API_PREFIX = '/v1';
@@ -39,7 +41,7 @@ const BUNDLE_IDENTIFIER = 'io.uebelacker.AppAttestExample';
 const TEAM_IDENTIFIER = 'V8H6LQ9448';
 
 app.get(`${API_PREFIX}/attest/challenge`, (req: Request, res: Response) => {
-  const challenge = uuid();
+  const challenge = randomUUID();
   db.storeChallenge(challenge);
   log.debug(`challange was requested, returning ${challenge}`);
   res.send(JSON.stringify({ challenge }));
@@ -66,7 +68,7 @@ app.post(`${API_PREFIX}/attest/verify`, (req: Request, res: Response) => {
 
     log.debug(`attestation result: ${JSON.stringify(result, null, 2)}`);
 
-    db.storeAttestation({ keyId: payload.keyId, publicKey: result.publicKey as string, signCount: 0 } as Attestation);
+    db.storeAttestation({ keyId: payload.keyId, publicKey: result.publicKey, signCount: 0 });
 
     res.sendStatus(204);
     db.deleteChallenge(payload.challenge);
@@ -106,14 +108,14 @@ app.post(`${API_PREFIX}/send-message`, (req: Request, res: Response) => {
 
     const result = verifyAssertion({
       assertion: Buffer.from(assertion, 'base64'),
-      payload: JSON.stringify(req.body),
+      payload: (req as RawBodyRequest).rawBody,
       publicKey: attestation.publicKey,
       bundleIdentifier: BUNDLE_IDENTIFIER,
       teamIdentifier: TEAM_IDENTIFIER,
       signCount: attestation.signCount,
     });
 
-    db.storeAttestation({ keyId, signCount: result.signCount as number } as Attestation);
+    db.storeAttestation({ keyId, signCount: result.signCount });
 
     log.debug(`Received message: ${JSON.stringify(req.body)}`);
 

@@ -1,32 +1,15 @@
 {
-  "name": "node-app-attest-example",
-  "version": "1.0.0",
-  "description": "Example implementation of apples App Attest protocol.",
-  "main": "index.js",
-  "repository": "https://github.com/uebelack/node-app-attest-example",
-  "author": "David Übelacker",
-  "license": "MIT",
+  "name": "node-app-attest-example-javascript",
+  "private": true,
+  "description": "App Attest example server (javascript)",
   "type": "module",
+  "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "lint": "eslint ."
+    "start": "node index.js"
   },
   "dependencies": {
-    "body-parser": "^2.2.0",
-    "express": "^5.1.0",
-    "node-app-attest": "^0.0.8",
-    "tratschtante": "^0.0.7",
-    "uuid": "^11.1.0"
-  },
-  "devDependencies": {
-    "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.34.0",
-    "eslint": "^9.34.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-jest": "^29.0.1",
-    "eslint-plugin-prettier": "^5.5.4",
-    "prettier": "^3.6.2"
+    "express": "^5.3.0",
+    "node-app-attest": "^2.2.0",
+    "tratschtante": "^2.0.0"
   }
 }

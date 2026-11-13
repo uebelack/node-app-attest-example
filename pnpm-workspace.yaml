@@ -1,0 +1,6 @@
+packages:
+  - javascript
+  - typescript
+minimumReleaseAgeExclude:
+  - node-app-attest@2.2.0
+  - tratschtante@2.0.0
