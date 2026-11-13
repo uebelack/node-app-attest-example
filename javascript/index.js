@@ -1,6 +1,5 @@
+import { randomUUID } from 'node:crypto';
 import express from 'express';
-import { v4 as uuid } from 'uuid';
-import bodyParser from 'body-parser';
 import { verifyAttestation, verifyAssertion } from 'node-app-attest';
 import tratschtante from 'tratschtante';
 import db from './db.js';
@@ -9,7 +8,7 @@ const log = tratschtante({ level: 'debug' });
 const app = express();
 // keep the raw body, the assertion signs the exact bytes the app sent
 app.use(
-  bodyParser.json({
+  express.json({
     verify: (req, res, buf) => {
       req.rawBody = buf;
     },
@@ -23,7 +22,7 @@ const BUNDLE_IDENTIFIER = 'io.uebelacker.AppAttestExample';
 const TEAM_IDENTIFIER = 'V8H6LQ9448';
 
 app.get(`${API_PREFIX}/attest/challenge`, (req, res) => {
-  const challenge = uuid();
+  const challenge = randomUUID();
   db.storeChallenge(challenge);
   log.debug(`challange was requested, returning ${challenge}`);
   res.send(JSON.stringify({ challenge }));

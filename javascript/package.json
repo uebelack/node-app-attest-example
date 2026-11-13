@@ -11,10 +11,8 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "body-parser": "^2.2.0",
     "express": "^5.1.0",
     "node-app-attest": "^0.0.8",
-    "tratschtante": "^0.0.7",
-    "uuid": "^11.1.0"
+    "tratschtante": "^0.0.7"
   }
 }

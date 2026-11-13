@@ -6,21 +6,19 @@
   "author": "David Übelacker",
   "repository": "https://github.com/uebelack/node-app-attest-example",
   "type": "module",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "node --loader ts-node/esm index.ts"
+    "start": "node index.ts",
+    "typecheck": "tsc"
   },
   "dependencies": {
-    "@types/uuid": "^10.0.0",
-    "body-parser": "^2.2.0",
     "express": "^5.1.0",
     "node-app-attest": "^0.0.8",
-    "tratschtante": "^0.0.7",
-    "uuid": "^11.1.0"
+    "tratschtante": "^0.0.7"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
-    "ts-node": "^10.9.2",
+    "@types/node": "^24.19.2",
     "typescript": "^5.9.2"
   }
 }
